@@ -3,72 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TradeSignal Bot — Crypto Trading Signals</title>
+    <title>TradeSignal Bot - Crypto Trading Signals</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="terminal-bar">
-        <div class="term-left">
-            <div class="term-dots">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
-            </div>
-            <span class="term-title">TradeSignal Bot — MiMo V2.5</span>
-        </div>
-        <div class="term-right">
-            <span class="live-indicator">● LIVE</span>
-            <span class="term-clock" id="clock"></span>
-        </div>
-    </header>
+    <div class="container">
+        <header>
+            <h1>📊 TradeSignal Bot</h1>
+            <p class="subtitle">Real-time Crypto Trading Signal Generator</p>
+        </header>
 
-    <div class="terminal-grid">
-        <section class="chart-area">
-            <div class="chart-header">
-                <div class="pair-info">
-                    <span class="pair-name">BTC/USDT</span>
-                    <span class="pair-price" id="currentPrice">$67,842.50</span>
-                    <span class="pair-change positive" id="priceChange">+2.34%</span>
+        <div class="grid">
+            <!-- Price Card -->
+            <div class="card price-card">
+                <div class="card-header">
+                    <h2>Bitcoin (BTC/USD)</h2>
+                    <span id="last-updated" class="badge">--</span>
                 </div>
-                <div class="timeframe-btns">
-                    <button class="tf-btn">1H</button>
-                    <button class="tf-btn active">4H</button>
-                    <button class="tf-btn">1D</button>
-                    <button class="tf-btn">1W</button>
+                <div class="price-display">
+                    <span id="btc-price" class="price">$--,---.--</span>
+                    <span id="btc-change" class="change">--%</span>
                 </div>
+                <div class="price-details">
+                    <div class="detail"><label>24h High</label><span id="btc-high">--</span></div>
+                    <div class="detail"><label>24h Low</label><span id="btc-low">--</span></div>
+                    <div class="detail"><label>Volume</label><span id="btc-volume">--</span></div>
+                    <div class="detail"><label>Market Cap</label><span id="btc-mcap">--</span></div>
+                </div>
+                <button id="refresh-btn" class="btn btn-primary" onclick="TradeSignal.refresh()">🔄 Refresh Data</button>
             </div>
-            <div class="chart-body" id="candlestickChart"></div>
-        </section>
 
-        <section class="signals-panel">
-            <div class="panel-title">📊 Trading Signals</div>
-            <div class="signals-list" id="signalsList"></div>
-        </section>
+            <!-- Signal Card -->
+            <div class="card signal-card">
+                <div class="card-header">
+                    <h2>Trading Signal</h2>
+                </div>
+                <div id="signal-display" class="signal-display signal-hold">
+                    <span id="signal-icon" class="signal-icon">⏸️</span>
+                    <span id="signal-text" class="signal-text">HOLD</span>
+                </div>
+                <div class="signal-strength">
+                    <label>Signal Strength</label>
+                    <div class="progress-bar">
+                        <div id="strength-bar" class="progress-fill" style="width: 50%"></div>
+                    </div>
+                    <span id="strength-text">50%</span>
+                </div>
+                <div class="indicators">
+                    <h3>Technical Indicators</h3>
+                    <div class="indicator"><label>RSI (14)</label><span id="rsi-value">--</span></div>
+                    <div class="indicator"><label>SMA (20)</label><span id="sma-value">--</span></div>
+                    <div class="indicator"><label>EMA (12)</label><span id="ema-value">--</span></div>
+                    <div class="indicator"><label>SMA/EMA Cross</label><span id="cross-value">--</span></div>
+                </div>
+                <div class="signal-reason" id="signal-reason">Waiting for data...</div>
+            </div>
+        </div>
+
+        <!-- Portfolio Card -->
+        <div class="card portfolio-card">
+            <div class="card-header">
+                <h2>📋 Portfolio Tracker</h2>
+                <span id="portfolio-total" class="badge">Total: $0.00</span>
+            </div>
+            <div class="portfolio-form">
+                <input type="text" id="asset-symbol" placeholder="Symbol (e.g. BTC)" />
+                <input type="number" id="asset-qty" placeholder="Quantity" step="any" />
+                <input type="number" id="asset-price" placeholder="Buy Price (USD)" step="any" />
+                <button class="btn btn-success" onclick="TradeSignal.addHolding()">+ Add</button>
+            </div>
+            <div id="portfolio-list" class="portfolio-list">
+                <p class="empty-msg">No holdings yet. Add your first position above.</p>
+            </div>
+            <div class="portfolio-summary">
+                <div><label>Total Invested:</label><span id="total-invested">$0.00</span></div>
+                <div><label>Current Value:</label><span id="total-current">$0.00</span></div>
+                <div><label>P/L:</label><span id="total-pl">$0.00</span></div>
+            </div>
+        </div>
+
+        <!-- Signal History -->
+        <div class="card history-card">
+            <div class="card-header">
+                <h2>📜 Signal History</h2>
+                <button class="btn btn-sm" onclick="TradeSignal.clearHistory()">Clear</button>
+            </div>
+            <div id="history-list" class="history-list">
+                <p class="empty-msg">No signals generated yet.</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>Data from CoinGecko API &bull; Technical analysis for educational purposes only</p>
+        </footer>
     </div>
-
-    <div class="bottom-grid">
-        <section class="portfolio-panel">
-            <div class="panel-title">💰 Portfolio</div>
-            <table class="portfolio-table">
-                <thead>
-                    <tr>
-                        <th>Asset</th>
-                        <th>Holdings</th>
-                        <th>Value</th>
-                        <th>24h</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="portfolioBody"></tbody>
-            </table>
-        </section>
-
-        <section class="indicators-panel">
-            <div class="panel-title">📈 Indicators</div>
-            <div class="indicators-grid" id="indicatorsGrid"></div>
-        </section>
-    </div>
-
     <script src="app.js"></script>
 </body>
 </html>
