@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradeSignal Bot — Crypto Trading Signals</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="terminal-bar">
+        <div class="term-left">
+            <div class="term-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+            </div>
+            <span class="term-title">TradeSignal Bot — MiMo V2.5</span>
+        </div>
+        <div class="term-right">
+            <span class="live-indicator">● LIVE</span>
+            <span class="term-clock" id="clock"></span>
+        </div>
+    </header>
+
+    <div class="terminal-grid">
+        <section class="chart-area">
+            <div class="chart-header">
+                <div class="pair-info">
+                    <span class="pair-name">BTC/USDT</span>
+                    <span class="pair-price" id="currentPrice">$67,842.50</span>
+                    <span class="pair-change positive" id="priceChange">+2.34%</span>
+                </div>
+                <div class="timeframe-btns">
+                    <button class="tf-btn">1H</button>
+                    <button class="tf-btn active">4H</button>
+                    <button class="tf-btn">1D</button>
+                    <button class="tf-btn">1W</button>
+                </div>
+            </div>
+            <div class="chart-body" id="candlestickChart"></div>
+        </section>
+
+        <section class="signals-panel">
+            <div class="panel-title">📊 Trading Signals</div>
+            <div class="signals-list" id="signalsList"></div>
+        </section>
+    </div>
+
+    <div class="bottom-grid">
+        <section class="portfolio-panel">
+            <div class="panel-title">💰 Portfolio</div>
+            <table class="portfolio-table">
+                <thead>
+                    <tr>
+                        <th>Asset</th>
+                        <th>Holdings</th>
+                        <th>Value</th>
+                        <th>24h</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="portfolioBody"></tbody>
+            </table>
+        </section>
+
+        <section class="indicators-panel">
+            <div class="panel-title">📈 Indicators</div>
+            <div class="indicators-grid" id="indicatorsGrid"></div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
